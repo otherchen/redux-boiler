@@ -1,11 +1,16 @@
 var Dispatcher = require('../dispatcher');
 var UserConstants = require('../constants/user_constants');
-var $ = require('jquery');
+var fetch = require('isomorphic-fetch');
 
 module.exports = {
   create: function(name) {
-    $.post('/api/user', {
-      name: name
+    fetch('/api/user', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name: name })
     })
     .then(function() {
       Dispatcher.dispatch({
@@ -15,7 +20,10 @@ module.exports = {
   },
 
   retrieve: function() {
-    $.get('/api/user')
+    fetch('/api/user')
+    .then(function(res) {
+      return res.json();
+    })
     .then(function(users) {
       Dispatcher.dispatch({
         actionType: UserConstants.USER_RETRIEVE,

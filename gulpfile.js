@@ -12,10 +12,10 @@ var babel = require('babel-core/register');
 gulp.task('test', function() {
   return gulp.src([
     '!node_modules/**/*.js',
-    './**/__test__/*.test.js'
+    '**/*.spec.js'
   ])
   .pipe(mocha({
-    require: [__dirname + '/utils/jsdom'],
+    require: ['./utils/jsdom'],
     reporter: 'nyan',
     timeout: 10000,
     compilers: {
@@ -25,7 +25,7 @@ gulp.task('test', function() {
 });
 
 gulp.task('styles', function() {
-  return gulp.src('./assets/scss/style.scss')
+  return gulp.src('assets/scss/style.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(sourcemaps.init())
     .pipe(autoprefixer({
@@ -33,18 +33,18 @@ gulp.task('styles', function() {
     }))
     .pipe(cleanCSS({compatibility: 'ie8'}))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('./public/css'));
+    .pipe(gulp.dest('public/css'));
 });
 
 gulp.task('images', function() {
-  return gulp.src('./assets/images/*')
+  return gulp.src('assets/images/*')
     .pipe(imagemin())
-    .pipe(gulp.dest('./public/images'));
+    .pipe(gulp.dest('public/images'));
 });
 
 gulp.task('assets-watch', function() {
-  gulp.watch('./assets/scss/*.scss', ['styles']);
-  gulp.watch('./assets/images/*', ['images']);
+  gulp.watch('assets/scss/*.scss', ['styles']);
+  gulp.watch('assets/images/*', ['images']);
 });
 
 gulp.task('webpack-watch', function() {
@@ -52,16 +52,16 @@ gulp.task('webpack-watch', function() {
   config.watch = true;
   return gulp.src('app/main.js')
     .pipe(webpack(config))
-    .pipe(gulp.dest('./public/js'));
+    .pipe(gulp.dest('public/js'));
 });
 
 gulp.task('run', function() {
   nodemon({
-    script: './bin/www',
+    script: 'bin/www',
     ext: 'js',
     ignore: [
-      'node_modules/',
-      'public/'
+      'node_modules',
+      'public'
     ]
   });
 });

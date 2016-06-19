@@ -1,7 +1,6 @@
 'use strict';
 
 var webpack = require('webpack');
-var path = require('path');
 
 module.exports = {
 
@@ -10,6 +9,11 @@ module.exports = {
   output: {
     path: __dirname + '/public/js',
     filename: 'bundle.js'
+  },
+
+  resolve: {
+    root: __dirname + '/app',
+    extensions: ['', '.js', '.jsx']
   },
 
   module: {
