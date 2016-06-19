@@ -1,0 +1,38 @@
+'use strict';
+
+var webpack = require('webpack');
+var path = require('path');
+
+module.exports = {
+
+  entry: './app/main.js',
+
+  output: {
+    path: __dirname + '/public/js',
+    filename: 'bundle.js'
+  },
+
+  module: {
+    loaders: [{
+      test: /\.jsx?/,
+      exclude: /node_modules/,
+      loader: 'babel'
+    }]
+  },
+
+  plugins: [
+    new webpack.NoErrorsPlugin()
+  ],
+
+  stats: {
+    colors: true,
+    reasons: true
+  },
+
+  devtool: 'source-map',
+
+  cache: true,
+
+  debug: false
+
+};

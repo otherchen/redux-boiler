@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+var cluster = require('cluster');
+
+if(cluster.isMaster) {
+  require('../start/master')(cluster, {
+    timeoutLength: 5000,
+    exitTimeoutLength: 3000
+  });
+} else {
+  require('../start/worker')();
+}
