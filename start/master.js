@@ -1,7 +1,7 @@
 var os = require('os');
 
 function createWorkers(cluster) {
-  var cpuCount = 1; /*os.cpus().length;*/
+  var cpuCount = os.cpus().length;
   for(var i = 0; i < cpuCount; ++i) {
     cluster.fork();
   }

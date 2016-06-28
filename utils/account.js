@@ -1,8 +1,5 @@
-var jwt = require('jsonwebtoken');
-var _ = require('lodash');
-var auth = require('./auth');
-var config = require('../config');
 var UserModel = require('../models/user');
+var auth = require('./auth');
 
 module.exports = {
   login: function(body) {

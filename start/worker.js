@@ -2,7 +2,7 @@ var cluster = require('cluster');
 
 module.exports = function() {
   var app = require('../app.js');
-  var debug = require('debug')('good-shepherd:server');
+  var debug = require('debug')('redux-boiler:server');
   var http = require('http');
 
   var port = normalizePort(process.env.PORT || '3000');

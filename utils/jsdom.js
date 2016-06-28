@@ -1,8 +1,7 @@
-/* set up in-javascript implementation of the DOM for testing */
-
 var jsdom = require('jsdom').jsdom;
-
 var exposedProperties = ['window', 'navigator', 'document'];
+
+/* set up in-javascript implementation of the DOM for testing */
 
 global.document = jsdom('');
 global.window = document.defaultView;
