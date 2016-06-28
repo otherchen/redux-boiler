@@ -7,7 +7,7 @@ var imagemin = require('gulp-imagemin');
 var webpack = require('gulp-webpack');
 var nodemon = require('gulp-nodemon');
 var mocha = require('gulp-mocha');
-var babel = require('babel-core/register');
+var babel = require('babel-register');
 
 gulp.task('test', function() {
   return gulp.src([

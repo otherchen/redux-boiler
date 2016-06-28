@@ -5,12 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var jwt = require('express-jwt');
+var config = require('./config');
 
 var app = express();
 
 // connecting with MongoDB
-var config = require('./config')[app.get('env')]
-mongoose.connect(config.db);
+mongoose.connect(config.mongodb.host);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,7 +27,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // express routes
 app.use('/', require('./routes/index'));
-app.use('/api/user', require('./routes/api/user'));
+
+// api routes
+var authentication = jwt({ secret: config.application.secret });
+app.use('/api', require('./routes/api/account'));
 
 // let react-router deal with routing,
 // will also need to handle 404 errors
