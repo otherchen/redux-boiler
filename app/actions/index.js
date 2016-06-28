@@ -97,13 +97,14 @@ export function register(user, dispatch) {
     body: JSON.stringify(user)
   })
   .then((response) => {
+    console.log(response);
     return response.json()
-  })
-  .then((json) => {
-    return {
-      status: response.status,
-      body: json
-    }
+    .then((json) => {
+      return {
+        status: response.status,
+        body: json
+      }
+    });
   })
   .then(({ status, body }) => {
     if(status >= 400) {
@@ -113,12 +114,14 @@ export function register(user, dispatch) {
       return Promise.reject({ _error: body.error })
     } else {
       // dispatch login action
+      console.log("body", body);
       dispatch(setUser(body.token))
       browserHistory.push('/')
       // store user in store & save token
     }
   })
   .catch((msg) => {
+    console.log("error:", msg);
     return Promise.reject({ _error: msg.error })
   })
 }
