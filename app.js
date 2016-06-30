@@ -30,7 +30,7 @@ app.use('/', require('./routes/index'));
 
 // api routes
 var authentication = jwt({ secret: config.application.secret });
-app.use('/api', require('./routes/api/account'));
+app.use('/api', require('./routes/api/user'));
 
 // let react-router deal with routing,
 // will also need to handle 404 errors
