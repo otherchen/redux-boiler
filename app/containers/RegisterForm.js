@@ -1,31 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { reduxForm } from 'redux-form'
-export const fields = [ 'firstName', 'lastName', 'email', 'password', 'confirm' ]
-import { register } from '../actions'
-
-const validate = values => {
-  const errors = {}
-  if (!values.email) {
-    errors.email = 'Required'
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address'
-  }
-  if (!values.firstName) {
-    errors.firstName = 'Required'
-  }
-  if (!values.lastName) {
-    errors.lastName = 'Required'
-  }
-  if(!values.password) {
-    errors.password = 'Required'
-  }
-  if(!values.confirm) {
-    errors.confirm = 'Required'
-  } else if (values.password !== values.confirm) {
-    errors.password = 'Passwords do not match'
-  }
-  return errors
-}
+import { register } from 'redux/modules/auth'
+import { createValidator, required, email, maxLength, minLength, match } from 'utils/validation'
 
 class RegisterForm extends Component {
   render() {
@@ -36,6 +12,7 @@ class RegisterForm extends Component {
       submitting,
       error
     } = this.props
+
     return (
       <form onSubmit={handleSubmit(register)}>
         {error && <div>{error}</div>}
@@ -83,6 +60,16 @@ RegisterForm.propTypes = {
   resetForm: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired
 }
+
+const validate = createValidator({
+  firstName: [required, minLength(3), maxLength(20)],
+  lastName: [required, minLength(3), maxLength(20)],
+  email: [required, email],
+  password: [required, minLength(6)],
+  confirm: [required, match('password')]
+})
+
+export const fields = [ 'firstName', 'lastName', 'email', 'password', 'confirm' ]
 
 export default reduxForm({
   form: 'register',

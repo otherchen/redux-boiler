@@ -1,30 +1,18 @@
 import React, { Component, PropTypes } from 'react'
 import { reduxForm } from 'redux-form'
-export const fields = [ 'email', 'password' ]
-import { login, logout } from '../actions'
-
-const validate = values => {
-  const errors = {}
-  if (!values.email) {
-    errors.email = 'Required'
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address'
-  }
-  if(!values.password) {
-    errors.password = 'Required'
-  }
-  return errors
-}
+import { login, logout } from 'redux/modules/auth'
+import { createValidator, email, required } from 'utils/validation'
 
 class LoginForm extends Component {
   render() {
     const {
-      fields: { firstName, lastName, email, password, confirm },
+      fields: { email, password },
       handleSubmit,
       resetForm,
       submitting,
       error
     } = this.props
+
     return (
       <form onSubmit={handleSubmit(login)}>
         {error && <div>{error}</div>}
@@ -58,6 +46,12 @@ LoginForm.propTypes = {
   submitting: PropTypes.bool.isRequired
 }
 
+const validate = createValidator({
+  email: [required, email],
+  password: [required]
+})
+
+export const fields = [ 'email', 'password' ]
 
 export default reduxForm({
   form: 'login',

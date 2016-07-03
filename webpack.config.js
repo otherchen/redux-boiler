@@ -4,7 +4,7 @@ module.exports = {
 
   entry: [
     'babel-polyfill',
-    './app/main.js'
+    './app/index.js'
   ],
 
   output: {

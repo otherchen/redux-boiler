@@ -1,25 +1,25 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { logout } from '../actions'
+import { logout } from 'redux/modules/auth'
+import { Level } from 'utils/access'
 
 class Logout extends Component {
   render() {
     const {
       dispatch,
-      isAuthenticated,
+      level,
       user
     } = this.props
-    console.log("USER from props:", user);
+
     return (
       <div>
       {
-          isAuthenticated ? <button onClick={(e)=> {
-            e.preventDefault()
-            dispatch(logout());
-          }}>Logout </button>
-          : <h1> Not logged In </h1>
+        level === Level.user ? <button onClick={(e)=> {
+          e.preventDefault()
+          dispatch(logout());
+        }}>Logout</button>
+        : <h1> Not logged In </h1>
       }
-
       {user && <h2>{user.email}, {user.firstName} </h2>}
       </div>
     )
@@ -28,20 +28,16 @@ class Logout extends Component {
 
 Logout.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  level: PropTypes.number.isRequired
 }
 
 function mapStateToProps(state) {
   const { auth } = state
-  const { isAuthenticated, user } = auth
-  console.log("USER FROM STATE:", user)
-  console.log("total state:", state)
+  const { level, user } = auth
   return {
-    isAuthenticated,
+    level,
     user
   }
 }
 
-Logout = connect(mapStateToProps)(Logout)
-
-export default Logout
+export default connect(mapStateToProps)(Logout)
