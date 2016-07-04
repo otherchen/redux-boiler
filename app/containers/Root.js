@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
-import RegisterForm from 'containers/RegisterForm'
-import LoginForm from 'containers/LoginForm'
-import Home from 'containers/Home'
-import NotFound from 'components/NotFound'
 import { loginWithRedirect } from 'redux/modules/auth'
 import { Access, Level } from 'utils/access'
 import Token from 'utils/token'
 import Store from 'redux/store'
+import NotFound from 'components/NotFound'
+import RegisterForm from 'containers/RegisterForm'
+import LoginForm from 'containers/LoginForm'
+import Home from 'containers/Home'
 
 const store = Store()
 const require = Access(store);
