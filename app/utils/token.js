@@ -7,13 +7,11 @@ export default {
     localStorage.setItem('token', token)
   },
 
-  decode(token) {
-    // @todo: use jsonwebtoken to decode instead of window.atob()
-    return window.atob(token.split('.')[1])
+  invalidate() {
+    localStorage.removeItem('token');
   },
 
-  verify(token) {
-    // @todo: use jsonwebtoken to verify if token is expired
-    return true
+  decode(token) {
+    return window.atob(token.split('.')[1])
   }
 }

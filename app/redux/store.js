@@ -1,17 +1,19 @@
 import { createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
-import rootReducer from 'redux/reducer'
+import reducer from 'redux/reducer'
 
-const loggerMiddleware = createLogger()
+let enhancer;
+
+if (process.env.NODE_ENV === 'production') {
+  enhancer = applyMiddleware(thunkMiddleware)
+} else {
+  enhancer = applyMiddleware(
+    thunkMiddleware,
+    createLogger()
+  )
+}
 
 export default (initialState) => {
-  return createStore(
-    rootReducer,
-    initialState,
-    applyMiddleware(
-      thunkMiddleware,
-      loggerMiddleware
-    )
-  )
+  return createStore(reducer, initialState, enhancer)
 }

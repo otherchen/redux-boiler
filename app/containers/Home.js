@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { logout } from 'redux/modules/auth'
 import { Level } from 'utils/access'
 
-class Logout extends Component {
+class Home extends Component {
   render() {
     const {
       dispatch,
@@ -26,7 +26,7 @@ class Logout extends Component {
   }
 }
 
-Logout.propTypes = {
+Home.propTypes = {
   dispatch: PropTypes.func.isRequired,
   level: PropTypes.number.isRequired
 }
@@ -40,4 +40,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(Logout)
+export default connect(mapStateToProps)(Home)

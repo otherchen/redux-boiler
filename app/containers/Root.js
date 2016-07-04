@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
-import AsyncApp from 'containers/AsyncApp'
 import RegisterForm from 'containers/RegisterForm'
 import LoginForm from 'containers/LoginForm'
-import Logout from 'containers/Logout'
-import Error404 from 'components/404'
+import Home from 'containers/Home'
+import NotFound from 'components/NotFound'
 import { setUser } from 'redux/modules/auth'
 import { Access, Level } from 'utils/access'
 import Token from 'utils/token'
 import Store from 'redux/store'
+
+/*
+  MOVE THIS INTO INDEX.js
+*/
 
 // Create initial store
 const store = Store()
@@ -25,11 +28,10 @@ export default class Root extends Component {
       <Provider store={store}>
         <Router history={browserHistory}>
           <Route path="/">
-            <IndexRoute component={AsyncApp} onEnter={require(Level.user)} />
+            <IndexRoute component={Home} onEnter={require(Level.user)} />
             <Route path="/sign-up" component={RegisterForm} onEnter={require(Level.guest)} />
             <Route path="/login" component={LoginForm} onEnter={require(Level.guest)} />
-            <Route path="/logout" component={Logout} />
-            <Route path="*" component={Error404} />
+            <Route path="/*" component={NotFound} />
           </Route>
         </Router>
       </Provider>

@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "start": "gulp",
-    "test": "gulp test",
-    "mongo": "start cmd.exe /k mongod --dbpath C:/data/db"
+    "test": "gulp test"
   },
   "dependencies": {
     "bcrypt": "^0.8.7",
@@ -26,7 +25,6 @@
     "react-router": "^2.4.1",
     "redux": "^3.5.2",
     "redux-form": "^5.2.5",
-    "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
     "serve-favicon": "~2.3.0"
   },
@@ -49,6 +47,7 @@
     "gulp-webpack": "^1.5.0",
     "jsdom": "^9.2.1",
     "react-addons-test-utils": "^15.1.0",
+    "redux-logger": "^2.6.1",
     "sinon": "^1.17.4",
     "webpack": "^1.13.1"
   }
