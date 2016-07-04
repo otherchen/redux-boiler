@@ -5,22 +5,19 @@ import RegisterForm from 'containers/RegisterForm'
 import LoginForm from 'containers/LoginForm'
 import Home from 'containers/Home'
 import NotFound from 'components/NotFound'
-import { setUser } from 'redux/modules/auth'
+import { loginWithRedirect } from 'redux/modules/auth'
 import { Access, Level } from 'utils/access'
 import Token from 'utils/token'
 import Store from 'redux/store'
 
-/*
-  MOVE THIS INTO INDEX.js
-*/
-
-// Create initial store
 const store = Store()
 const require = Access(store);
 
-// Login if token already exists
+// @todo: Need to verify that the token is valid with server.
+// instead of assuming it is always valid. Probably move logic
+// into a HOC that does verification before rendering children.
 let token = Token.get();
-if(token) store.dispatch(setUser(token));
+if(token) store.dispatch(loginWithRedirect(token));
 
 export default class Root extends Component {
   render() {

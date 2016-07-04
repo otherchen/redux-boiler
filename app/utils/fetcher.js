@@ -9,10 +9,10 @@ import _ from 'lodash'
 /*
   Example GET:
     fetcher.get('api.test.com/resources)
-    .then(function(body) {
+    .then((body) => {
       //do anything with the result
     })
-    .catch(function(err) {
+    .catch((err) => {
       //handle server / http status errors
     })
 
@@ -20,16 +20,15 @@ import _ from 'lodash'
     fetcher.post('api.test.com/resources', {
       body: { data: "data" }
     })
-    .then(function(body) {
+    .then((body) => {
       //do anything with the result
     })
-    .catch(function(err) {
+    .catch((err) => {
       //handle server / http status errors
     })
 */
 
 function request(url, options) {
-
   // Set up options
   let defaultOpts = {
     headers: {
@@ -75,7 +74,7 @@ function request(url, options) {
 }
 
 let wrapper = {}
-_.forEach(['get', 'post', 'put', 'delete'], function(method){
+_.forEach(['get', 'post', 'put', 'delete'], (method) => {
   wrapper[method] = (url, options) => {
     if(!options) options = {};
     options.method = method;
