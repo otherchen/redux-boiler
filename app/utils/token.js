@@ -1,14 +1,14 @@
 export default {
   get() {
-    return localStorage.getItem('token')
+    return localStorage.getItem('jwtToken')
   },
 
   set(token) {
-    localStorage.setItem('token', token)
+    localStorage.setItem('jwtToken', token)
   },
 
   invalidate() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('jwtToken');
   },
 
   decode(token) {

@@ -16,10 +16,9 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   level: PropTypes.number.isRequired,
   user: PropTypes.object.isRequired,
-  handleClick: PropTypes.object.isRequired
+  handleClick: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {

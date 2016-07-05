@@ -29,7 +29,6 @@ import _ from 'lodash'
 */
 
 function request(url, options) {
-  // Set up options
   let defaultOpts = {
     headers: {
       'Accept': 'application/json',
@@ -47,7 +46,6 @@ function request(url, options) {
 
   options = _.merge({}, defaultOpts, options)
 
-  // Perform fetch request
   return fetch(url, options)
   .then((response) => {
     return response.json()
