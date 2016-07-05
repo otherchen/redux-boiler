@@ -113,7 +113,7 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 
 ##### How to Write Tests
 1. all tests should have the extension - `.spec.js` (ex. HelloWorld.spec.js)
-2. test files can be placed anywhere but it is recommended to group them in folders with clear intentions (ex. `\__test\__`)
+2. test files can be placed anywhere but it is recommended to group them in folders with clear intentions (ex. `__test__`)
 2. run your tests using `npm test` or `gulp test`
 
 ### Gulp Commands
