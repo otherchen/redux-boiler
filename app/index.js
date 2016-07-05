@@ -19,7 +19,7 @@ const require = Access(store)
 // into a HOC that does verification before rendering children.
 //
 // Note: verifyToken action in the auth module was created for this situation
-// ex: https://github.com/rajaraodv/react-redux-blog/blob/master/public/src/containers/AppContainer.js
+// Reference: https://github.com/rajaraodv/react-redux-blog
 
 const token = Token.get()
 if(token) store.dispatch(loginWithRedirect(token))
