@@ -131,5 +131,5 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 
 ### Todo List
 1. Create a Higher Order Component to handle checking the token on page refresh
-2. Implement Webpack hotreloading / Webpack dev server
+2. Implement Webpack hot reloading / Webpack dev server
 3. Implement Redux Router for Redo/Undo functionality
