@@ -33,6 +33,11 @@ MERN stack + Redux boilerplate with all of the essentials built in.
   mkdir -p /data/db
   ```
 
+1. start up mongo with:
+  ```
+  mongod --dbpath <path to data directory>
+  ```
+
 1. create a mongo database
   ```
   mongo
@@ -40,11 +45,6 @@ MERN stack + Redux boilerplate with all of the essentials built in.
   ```
 
 1. add your new database configeration to [config.js](./config.js)
-
-1. start up mongo with:
-  ```
-  mongod --dbpath <path to data directory>
-  ```
 
 1. start the node server
   ```
@@ -60,7 +60,7 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 
 
 ### File Structure
-1. [/app](./app) is where you write all of your react/flux code
+1. [/app](./app) is where you write all of your react/redux code
 2. [/models](./models) is where you write your mongoose schemas
 3. [/views](./views) is where you write your ejs (where you can include cdn scripts)
 4. [/routes](./routes) is where you write your controller and api routes
@@ -76,7 +76,7 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 2. mongodb
 3. express
 4. node.js
-5. flux
+5. redux
 
 ##### Testing
 1. mocha 
@@ -90,9 +90,13 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 2. webpack
 3. nodemon
 4. mongoose
-5. jquery
-6. lodash
-7. babel (jsx support)
+5. lodash
+6. bcrypt
+7. isomorphic-fetch
+8. babel (jsx/es6 support)
+9. jsonwebtoken
+10. redux-form
+11. redux-thunk
 
 ### Testing Utilities
 ##### Frontend Stack
@@ -108,9 +112,9 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 3. sinon - spies
 
 ##### How to Write Tests
-1. you must place all your tests in `\__test\__` folders - these folders can be placed anywhere
-2. all tests should have the extension - `.test.js` (ex. HelloWorld.test.js or helper.test.js)
-3. run your tests using `npm test` or `gulp test`
+1. all tests should have the extension - `.spec.js` (ex. HelloWorld.spec.js)
+2. test files can be placed anywhere but it is recommended to group them in folders with clear intentions (ex. `\__test\__`)
+2. run your tests using `npm test` or `gulp test`
 
 ### Gulp Commands
 1. `gulp` this builds our images, css, and js bundles then calls ```gulp run```
@@ -124,14 +128,3 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 ### Recommendations
 1. follow airbnb's [react style guide](https://github.com/airbnb/javascript/tree/master/react) for best practices
 2. add the [supertest](https://www.npmjs.com/package/supertest) npm module for testing routes
-3. include es6 support for staying relevant:
-  * add "es2015" to the .babelrc file
-    ```
-    {
-      "presets": ["react", "es2015"]
-    }
-    ```
-  * install the es6 babel preset
-    ```
-    npm install babel-preset-es2015
-    ```
