@@ -5,22 +5,11 @@ import { Level } from 'utils/access'
 
 class Home extends Component {
   render() {
-    const {
-      dispatch,
-      level,
-      user
-    } = this.props
-
+    const { level, user, handleClick } = this.props
     return (
       <div>
-      {
-        level === Level.user ? <button onClick={(e)=> {
-          e.preventDefault()
-          dispatch(logout());
-        }}>Logout</button>
-        : <h1> Not logged In </h1>
-      }
-      {user && <h2>{user.email}, {user.firstName} </h2>}
+        {user && <h1>{user.firstName} {user.lastName}, {user.email}</h1>}
+        {level === Level.user ? <button onClick={handleClick}>Logout</button> : <h1>Not Logged In</h1>}
       </div>
     )
   }
@@ -28,7 +17,9 @@ class Home extends Component {
 
 Home.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  level: PropTypes.number.isRequired
+  level: PropTypes.number.isRequired,
+  user: PropTypes.object.isRequired,
+  handleClick: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
@@ -40,4 +31,13 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(Home)
+function mapDispatchToProps(dispatch) {
+  return {
+    handleClick: (e) => {
+      e.preventDefault()
+      dispatch(logout())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

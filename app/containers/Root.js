@@ -16,6 +16,10 @@ const require = Access(store);
 // @todo: Need to verify that the token is valid with server.
 // instead of assuming it is always valid. Probably move logic
 // into a HOC that does verification before rendering children.
+//
+// Note: verifyToken action in the auth module was created for this situation
+// ex: https://github.com/rajaraodv/react-redux-blog/blob/master/public/src/containers/AppContainer.js
+
 let token = Token.get();
 if(token) store.dispatch(loginWithRedirect(token));
 

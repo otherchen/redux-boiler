@@ -1,18 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import { reduxForm } from 'redux-form'
-import { login, logout } from 'redux/modules/auth'
+import { login } from 'redux/modules/auth'
 import { createValidator, email, required } from 'utils/validation'
 
 class LoginForm extends Component {
   render() {
-    const {
-      fields: { email, password },
-      handleSubmit,
-      resetForm,
-      submitting,
-      error
-    } = this.props
-
+    const { fields: { email, password }, handleSubmit, resetForm, submitting, error } = this.props
     return (
       <form onSubmit={handleSubmit(login)}>
         {error && <div>{error}</div>}
@@ -27,9 +20,7 @@ class LoginForm extends Component {
           {password.touched && password.error && <div>{password.error}</div>}
         </div>
         <div>
-          <button type="submit" disabled={submitting}>
-            {submitting ? <i/> : <i/>} Submit
-          </button>
+          <button type="submit" disabled={submitting}>Submit</button>
           <button type="button" disabled={submitting} onClick={resetForm}>
             Clear Values
           </button>
@@ -51,10 +42,8 @@ const validate = createValidator({
   password: [required]
 })
 
-export const fields = [ 'email', 'password' ]
-
 export default reduxForm({
   form: 'login',
-  fields,
+  fields: ['email', 'password'],
   validate
 })(LoginForm)

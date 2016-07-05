@@ -5,14 +5,7 @@ import { createValidator, required, email, maxLength, minLength, match } from 'u
 
 class RegisterForm extends Component {
   render() {
-    const {
-      fields: { firstName, lastName, email, password, confirm },
-      handleSubmit,
-      resetForm,
-      submitting,
-      error
-    } = this.props
-
+    const { fields: { firstName, lastName, email, password, confirm }, handleSubmit, resetForm, submitting, error } = this.props
     return (
       <form onSubmit={handleSubmit(register)}>
         {error && <div>{error}</div>}
@@ -42,9 +35,7 @@ class RegisterForm extends Component {
           {confirm.touched && confirm.error && <div>{confirm.error}</div>}
         </div>
         <div>
-          <button type="submit" disabled={submitting}>
-            {submitting ? <i/> : <i/>} Submit
-          </button>
+          <button type="submit" disabled={submitting}>Submit</button>
           <button type="button" disabled={submitting} onClick={resetForm}>
             Clear Values
           </button>
@@ -69,10 +60,8 @@ const validate = createValidator({
   confirm: [required, match('password')]
 })
 
-export const fields = [ 'firstName', 'lastName', 'email', 'password', 'confirm' ]
-
 export default reduxForm({
   form: 'register',
-  fields,
+  fields: [ 'firstName', 'lastName', 'email', 'password', 'confirm' ],
   validate
 })(RegisterForm)

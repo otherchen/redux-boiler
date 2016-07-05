@@ -137,10 +137,12 @@ export const verifyToken = (token) => {
     return fetcher.get('/api/user/verify/' + token)
     .then((body) => {
       dispatch(verifySuccess())
+      loginWithRedirect(token)
       return true
     })
     .catch((err) => {
       dispatch(verifyFailure())
+      Token.invalidate()
       return false
     })
   }
