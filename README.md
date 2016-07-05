@@ -128,3 +128,8 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 ### Recommendations
 1. follow airbnb's [react style guide](https://github.com/airbnb/javascript/tree/master/react) for best practices
 2. add the [supertest](https://www.npmjs.com/package/supertest) npm module for testing routes
+
+### Todo List
+1. Create a Higher Order Component to handle checking the token on page refresh
+2. Implement Webpack hot reloading / Webpack dev server
+3. Implement Redux Router for Redo/Undo functionality
