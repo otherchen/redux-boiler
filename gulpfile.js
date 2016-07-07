@@ -43,8 +43,8 @@ gulp.task('images', function() {
 });
 
 gulp.task('assets-watch', function() {
-  gulp.watch('assets/scss/*.scss', ['styles']);
-  gulp.watch('assets/images/*', ['images']);
+  gulp.watch('assets/scss/**/*.scss', ['styles']);
+  gulp.watch('assets/images/**/*', ['images']);
 });
 
 gulp.task('webpack-watch', function() {
