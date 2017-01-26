@@ -16,9 +16,6 @@ module.exports = {
         }
         return auth.createToken(user.toObject());
       });
-    })
-    .catch(function(error) {
-      return Promise.reject(error);
     });
   },
   register: function(body) {
@@ -38,9 +35,6 @@ module.exports = {
     })
     .then(function(user) {
       return self.login(body);
-    })
-    .catch(function(error) {
-      return Promise.reject(error);
     });
   }
 };

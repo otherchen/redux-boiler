@@ -12,16 +12,16 @@ import { spy } from 'sinon'
   5. jsDOM
 */
 
-import NotFound from '../NotFound'
+import NotFoundPage from '../NotFoundPage'
 
-describe('<NotFound />', () => {
+describe('<NotFoundPage />', () => {
   it('contains not found text', () => {
-    const wrapper = mount(<NotFound />);
+    const wrapper = mount(<NotFoundPage />);
     expect(wrapper.find('h1').text()).to.equal('404 Page Not Found');
   });
   it('calls render', () => {
-    spy(NotFound.prototype, 'render');
-    const wrapper = mount(<NotFound />);
-    expect(NotFound.prototype.render.calledOnce).to.equal(true);
+    spy(NotFoundPage.prototype, 'render');
+    const wrapper = mount(<NotFoundPage />);
+    expect(NotFoundPage.prototype.render.calledOnce).to.equal(true);
   });
 });

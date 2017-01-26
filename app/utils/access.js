@@ -1,31 +1,25 @@
-export const Level = {
-  guest: 1,
-  user: 2
+import { browserHistory } from 'react-router';
+
+export const levels = {
+  GUEST: 'guest',
+  USER: 'user',
+  ALL: 'all'
+};
+
+export const validators = {
+  guest: user => !user,
+  user: user => !!user,
+  all: user => true
+};
+
+export const redirects = {
+  guest: '/',
+  user: '/auth'
 }
 
-export function Access(store) {
-  return (level) => {
-    return (nextState, replace) => {
-      const auth = store.getState().auth
-      let verified, redirect
-
-      switch(level) {
-        case Level.guest:
-          verified = (auth.level === Level.guest)
-          redirect = '/'
-          break;
-        case Level.user:
-          verified = (auth.level === Level.user)
-          redirect = '/login'
-          break;
-        default:
-          verified = false;
-          redirect = '/login'
-      }
-
-      if(!verified) {
-        replace(redirect)
-      }
-    }
-  }
+export function access(level, user) {
+  const verified = validators[level](user);
+  const redirect = redirects[level];
+  if(!verified) browserHistory.replace(redirect);
+  return verified;
 }

@@ -1,11 +1,10 @@
-import fetch from 'isomorphic-fetch'
 import { browserHistory } from 'react-router'
-import { Level } from 'utils/access'
 import fetcher from 'utils/fetcher'
 import Token from 'utils/token'
+import { serverError } from './error';
 
 /*************************/
-// ActionTypes
+// Action Types
 
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 export const REGISTER_FAILURE = 'REGISTER_FAILURE'
@@ -18,34 +17,22 @@ export const VERIFY_FAILURE = 'VERIFY_FAILURE'
 /*************************/
 // Reducer
 
-const initialState = {
-  level: Level.guest,
-  user: null,
-  token: null
-}
+const initialState = null;
 
-export default function auth(state = initialState, action) {
+export default function user(state = initialState, action) {
   switch (action.type) {
     case LOGIN_SUCCESS:
-      return Object.assign({}, state, {
-        level: Level.user,
-        user: action.user,
-        token: action.token
-      })
+      return action.user;
     case LOGIN_FAILURE:
     case LOGOUT_SUCCESS:
-      return Object.assign({}, state, {
-        level: Level.guest,
-        user: null,
-        token: null
-      })
+      return null;
     default:
       return state
   }
 }
 
 /*************************/
-// Actions
+// Action Creators
 
 function registerSuccess() {
   return {
@@ -59,13 +46,12 @@ function registerFailure() {
   }
 }
 
-function loginSuccess(token) {
+export function loginSuccess(token) {
   Token.set(token)
   let user = JSON.parse(Token.decode(token))
   return {
     type: LOGIN_SUCCESS,
-    user,
-    token
+    user
   }
 }
 
@@ -75,7 +61,7 @@ function loginFailure() {
   }
 }
 
-function logoutSuccess() {
+export function logoutSuccess() {
   return {
     type: LOGOUT_SUCCESS
   }
@@ -94,25 +80,25 @@ function verifyFailure() {
 }
 
 export function register(user, dispatch) {
-  return fetcher.post('/api/user/register', { body: user })
+  return fetcher.post('/api/user/register', dispatch, { body: user, form: true })
   .then((body) => {
     dispatch(registerSuccess())
     dispatch(loginWithRedirect(body.token))
   })
   .catch((err) => {
     dispatch(registerFailure())
-    return Promise.reject({ _error: err.toString() })
+    return Promise.reject(err);
   })
 }
 
 export function login(user, dispatch) {
-  return fetcher.post('/api/user/login', { body: user })
+  return fetcher.post('/api/user/login', dispatch, { body: user, form: true })
   .then((body) => {
     dispatch(loginWithRedirect(body.token))
   })
   .catch((err) => {
-    dispatch(loginFailure())
-    return Promise.reject({_error: err.toString()})
+    dispatch(loginFailure());
+    return Promise.reject(err);
   })
 }
 
@@ -120,30 +106,32 @@ export const loginWithRedirect = (token) => {
   return (dispatch, getState) => {
     dispatch(loginSuccess(token))
     browserHistory.push('/')
+
+    /*
+      Is this redirect needed? should the access middleware take care of it?
+      - Should the logoutSuccess in fetcher be actually logout()? Probably needs redirect there (test it)
+      - What about the loginSuccess in index.js? Probably does not need redirect there
+    */
   }
 }
 
 export const logout = () => {
   return (dispatch, getState) => {
     Token.invalidate();
-    dispatch(logoutSuccess())
-    browserHistory.push('/login')
+    dispatch(logoutSuccess());
+    browserHistory.push('/auth');
   }
 }
 
-export const verifyToken = (token) => {
+export const verifyToken = () => {
   return (dispatch, getState) => {
-    if(!token || token === '') return;
-    return fetcher.get('/api/user/verify/' + token)
+    return fetcher.get('/api/user/verify', dispatch)
     .then((body) => {
       dispatch(verifySuccess())
-      loginWithRedirect(token)
-      return true
     })
     .catch((err) => {
       dispatch(verifyFailure())
       Token.invalidate()
-      return false
     })
   }
 }

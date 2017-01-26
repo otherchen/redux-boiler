@@ -5,7 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var jwt = require('express-jwt');
 var config = require('./config');
 
 var app = express();
@@ -26,7 +25,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // api routes
-var authentication = jwt({ secret: config.application.secret });
 app.use('/api/user', require('./routes/api/user'));
 
 // express routes
@@ -36,23 +34,32 @@ app.use('/', require('./routes/index'));
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
+    if (err.name === 'UnauthorizedError') {
+      res.status(err.status || 401);
+      res.send({ error: err.message });
+    } else {
+      res.status(err.status || 500);
+      res.render('error', {
+        message: err.message,
+        error: err
+      });
+    }
   });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+  if (err.name === 'UnauthorizedError') {
+    res.status(err.status || 401);
+    res.send({ error: "Unauthorized Access" });
+  } else {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: {}
+    });
+  }
 });
-
 
 module.exports = app;

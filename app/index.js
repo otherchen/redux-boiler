@@ -1,40 +1,42 @@
-import React from 'react'
-import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
-import { loginWithRedirect } from 'redux/modules/auth'
-import { Access, Level } from 'utils/access'
-import Token from 'utils/token'
-import Store from 'redux/store'
-import NotFound from 'components/NotFound'
-import RegisterForm from 'containers/RegisterForm'
-import LoginForm from 'containers/LoginForm'
-import Home from 'containers/Home'
+import React from 'react';
+import Store from 'redux/store';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import PageContainer from 'containers/PageContainer';
+import NotFoundPage from 'containers/NotFoundPage';
+import AuthPage from 'containers/AuthPage';
+import HomePage from 'containers/HomePage';
+import { loginSuccess } from 'redux/modules/user';
+import { levels } from 'utils/access';
+import Token from 'utils/token';
 
-const store = Store()
-const require = Access(store)
+const store = Store();
 
-// @todo: Need to verify that the token is valid with server.
-// instead of assuming it is always valid. Probably move logic
-// into a HOC that does verification before rendering children.
-//
-// Note: verifyToken action in the auth module was created for this situation
-// Reference: https://github.com/rajaraodv/react-redux-blog
-
-const token = Token.get()
-if(token) store.dispatch(loginWithRedirect(token))
+// @todo: Abstract persistent login into HOC.
+// Should verify token on refresh by hitting API.
+const token = Token.get();
+if(token) store.dispatch(loginSuccess(token));
 
 const routes = (
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/">
-        <IndexRoute component={Home} onEnter={require(Level.user)} />
-        <Route path="/sign-up" component={RegisterForm} onEnter={require(Level.guest)} />
-        <Route path="/login" component={LoginForm} onEnter={require(Level.guest)} />
-        <Route path="/*" component={NotFound} />
+        {/* Routes that require a logged in user */}
+        <Route component={PageContainer(levels.USER)}>
+          <IndexRoute component={HomePage}/>
+        </Route>
+        {/* Routes that require a guest user */}
+        <Route component={PageContainer(levels.GUEST)}>
+          <Route path="/auth" component={AuthPage}/>
+        </Route>
+        {/* Routes that are available to all */}
+        <Route component={PageContainer(levels.ALL)}>
+          <Route path="/*" component={NotFoundPage}/>
+        </Route>
       </Route>
     </Router>
   </Provider>
-)
+);
 
-render(routes, document.getElementById('root'))
+render(routes, document.getElementById('root'));

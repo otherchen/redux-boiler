@@ -1,83 +1,81 @@
-import fetch from 'isomorphic-fetch'
-import _ from 'lodash'
-
-// By default, this util is set up to recieve and respond with json.
-// However, it can easily be tweaked to accomodate your needs. You can
-// change the default options and how it handles responses from the server
-// to be more dynamic (right now it just assumes the response is in json).
+import { SubmissionError } from 'redux-form';
+import { serverError } from 'redux/modules/error';
+import { browserHistory } from 'react-router';
+import { logout } from 'redux/modules/user';
+import fetch from 'isomorphic-fetch';
+import Token from 'utils/token';
+import _ from 'lodash';
 
 /*
+  This is a wrapper object around the fetch api.
+  It allows us to handle errors and redirects in one place.
+
   Example GET:
-    fetcher.get('api.test.com/resources)
-    .then((body) => {
-      //do anything with the result
-    })
-    .catch((err) => {
-      //handle server / http status errors
-    })
+
+    const body = await fetcher.get('api.test.com/resources', dispatch);
 
   Example POST:
-    fetcher.post('api.test.com/resources', {
-      body: { data: "data" }
-    })
-    .then((body) => {
-      //do anything with the result
-    })
-    .catch((err) => {
-      //handle server / http status errors
-    })
+
+    const body = await fetcher.post('api.test.com/submit', dispatch, {
+      body: { data: 'data' },
+      form: true,
+    });
 */
 
-function request(url, options) {
-  let defaultOpts = {
+function request(url, dispatch, options) {
+  let  defaultOpts = {
+    credentials: 'same-origin',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + Token.get()
     }
-  }
+  };
 
   if(options.body && typeof options.body === 'object') {
     options.body = JSON.stringify(options.body);
   }
 
   if(options.bearer && typeof options.bearer === 'string') {
-    options.headers['Authorization'] = 'Bearer ' + options.bearer
+    options.headers['Authorization'] = 'Bearer ' + options.bearer;
   }
 
-  options = _.merge({}, defaultOpts, options)
+  options = _.merge({}, defaultOpts, options);
 
   return fetch(url, options)
   .then((response) => {
-    return response.json()
-    .then((body) => {
+    return response.text()
+    .then((text) => {
+      let body;
+      try {
+        body = JSON.parse(text);
+      } catch (e) {
+        body = text;
+      }
       return {
         response: response,
         body: body
-      }
-    })
-    .catch((err) => {
-      if(err) throw err;
+      };
     })
   })
   .then(({response, body}) => {
     if(response.ok) {
-      return body
+      return body;
     } else {
-      throw (body.error || response.statusText)
+      if(response.status === 401) dispatch(logout());
+      const error = body.error || 'An unexpected error has occured';
+      throw options.form ? new SubmissionError({ _error: error }) : dispatch(serverError(error));
     }
-  })
-  .catch((err) => {
-    return Promise.reject(err)
-  })
+  });
 }
 
-let wrapper = {}
+let wrapper = {};
 _.forEach(['get', 'post', 'put', 'delete'], (method) => {
-  wrapper[method] = (url, options) => {
-    if(!options) options = {};
+  wrapper[method] = (url, dispatch, options) => {
+    if(!options) { options = {}; }
     options.method = method;
-    return request(url, options)
-  }
-})
+    return request(url, dispatch, options);
+  };
+});
 
-export default wrapper
+export default wrapper;
