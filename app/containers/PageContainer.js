@@ -12,10 +12,16 @@ export default function(level) {
     } 
 
     componentDidMount() {
-      /* Problem, on 401, verified flag is not changed because this code is not run */
       const { user } = this.props;
       const verified = access(level, user);
       this.setState({ verified });
+    }
+
+    componentWillReceiveProps(nextProps){
+      if (nextProps.user !== this.props.user) {
+        const verified = access(level, nextProps.user);
+        this.setState({ verified });
+      }
     }
 
     render() {

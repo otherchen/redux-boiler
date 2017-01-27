@@ -1,7 +1,7 @@
-import { browserHistory } from 'react-router'
-import fetcher from 'utils/fetcher'
-import Token from 'utils/token'
+import { browserHistory } from 'react-router';
 import { serverError } from './error';
+import fetcher from 'utils/fetcher';
+import Token from 'utils/token';
 
 /*************************/
 // Action Types
@@ -17,9 +17,7 @@ export const VERIFY_FAILURE = 'VERIFY_FAILURE'
 /*************************/
 // Reducer
 
-const initialState = null;
-
-export default function user(state = initialState, action) {
+export default function user(state = null, action) {
   switch (action.type) {
     case LOGIN_SUCCESS:
       return action.user;
