@@ -30,7 +30,7 @@ MERN stack + Redux boilerplate with all of the essentials built in.
   mkdir -p /data/db
   ```
 
-1. make surey the directory has the correct permissions
+1. make sure the directory has the correct permissions
   ```
   chmod 0755 /data/db && sudo chown $USER /data/db
   ```
