@@ -21,9 +21,6 @@ MERN stack + Redux boilerplate with all of the essentials built in.
   ```
   npm install
   ```
-  ```
-  npm install -global gulp-cli
-  ```
 
 1. install mongodb from their [website](https://docs.mongodb.com/manual/installation/) or if you have homebrew: 
   ```brew install mongodb```
@@ -31,6 +28,11 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 1. create a directory for mongo to live in
   ```
   mkdir -p /data/db
+  ```
+
+1. make sure the directory has the correct permissions
+  ```
+  chmod 0755 /data/db && sudo chown $USER /data/db
   ```
 
 1. start up mongo with:
@@ -114,16 +116,11 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 ##### How to Write Tests
 1. all tests should have the extension - `.spec.js` (ex. HelloWorld.spec.js)
 2. test files can be placed anywhere but it is recommended to group them in folders with clear intentions (ex. `__test__`)
-2. run your tests using `npm test` or `gulp test`
+2. run your tests using `npm test`
 
-### Gulp Commands
-1. `gulp` this builds our images, css, and js bundles then calls ```gulp run```
-2. `gulp run` this runs our server using nodemon - will reboot the server if any changes are made to files
-3. `gulp test` this runs all of our tests
-
-##### Side Note
-1. `npm start` directly calls `gulp`
-2. `npm test` directly calls `gulp test`
+### NPM Scripts
+1. `npm start` starts the node server
+2. `npm test` runs the mocha tests
 
 ### Recommendations
 1. follow airbnb's [react style guide](https://github.com/airbnb/javascript/tree/master/react) for best practices
