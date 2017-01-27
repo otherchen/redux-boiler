@@ -1,6 +1,6 @@
 var config = require('../config');
 var jwt = require('jsonwebtoken');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 var _ = require('lodash');
 
 var SALT_WORK_FACTOR = 10;

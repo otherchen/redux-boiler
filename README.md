@@ -93,7 +93,7 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 3. nodemon
 4. mongoose
 5. lodash
-6. bcrypt
+6. bcryptjs
 7. isomorphic-fetch
 8. babel (jsx/es6 support)
 9. jsonwebtoken

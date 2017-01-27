@@ -50,7 +50,7 @@ gulp.task('assets-watch', function() {
 gulp.task('webpack-watch', function() {
   var config = require('./webpack.config.js');
   config.watch = true;
-  return gulp.src('app/main.js')
+  return gulp.src('app/index.js')
     .pipe(webpack(config))
     .pipe(gulp.dest('public/js'));
 });

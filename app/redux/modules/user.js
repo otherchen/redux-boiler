@@ -45,8 +45,8 @@ function registerFailure() {
 }
 
 export function loginSuccess(token) {
-  Token.set(token)
-  let user = JSON.parse(Token.decode(token))
+  let user = JSON.parse(Token.decode(token));
+  Token.set(token);
   return {
     type: LOGIN_SUCCESS,
     user
