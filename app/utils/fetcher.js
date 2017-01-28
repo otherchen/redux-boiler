@@ -1,7 +1,7 @@
 import { SubmissionError } from 'redux-form';
 import { serverError } from 'redux/modules/error';
 import { browserHistory } from 'react-router';
-import { logout } from 'redux/modules/user';
+import { logoutSuccess } from 'redux/modules/user';
 import fetch from 'isomorphic-fetch';
 import Token from 'utils/token';
 import _ from 'lodash';
@@ -62,7 +62,7 @@ function request(url, dispatch, options) {
     if(response.ok) {
       return body;
     } else {
-      if(response.status === 401) dispatch(logout());
+      if(response.status === 401) dispatch(logoutSuccess());
       const error = body.error || 'An unexpected error has occured';
       throw options.form ? new SubmissionError({ _error: error }) : dispatch(serverError(error));
     }

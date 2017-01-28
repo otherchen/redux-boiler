@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { logout, verifyToken } from 'redux/modules/user';
+import { logoutSuccess, verifyToken } from 'redux/modules/user';
 import Token from 'utils/token';
 
 class HomePage extends Component {
@@ -26,7 +26,7 @@ function mapDispatchToProps(dispatch) {
   return {
     logoutUser: (e) => {
       e.preventDefault();
-      dispatch(logout());
+      dispatch(logoutSuccess());
     },
     invalidate: (e) => {
       e.preventDefault();
