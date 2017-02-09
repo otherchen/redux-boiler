@@ -66,4 +66,4 @@ gulp.task('run', function() {
   });
 });
 
-gulp.task('default', ['webpack-watch', 'assets-watch', 'run']);
+gulp.task('default', ['styles', 'images', 'webpack-watch', 'assets-watch', 'run']);

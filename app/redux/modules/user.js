@@ -1,5 +1,4 @@
 import actionCreatorFactory from 'utils/action-creator-factory';
-import { browserHistory } from 'react-router';
 import { serverError } from './error';
 import fetcher from 'utils/fetcher';
 import Token from 'utils/token';
