@@ -57,7 +57,7 @@ gulp.task('client-build', function() {
 });
 
 gulp.task('server-build', function() {
-  return gulp.src(['server/**/*.js', 'server/**/*'])
+  return gulp.src(['server/**/*'])
     .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(sourcemaps.write('.'))
