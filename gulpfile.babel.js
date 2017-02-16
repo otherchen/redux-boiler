@@ -14,6 +14,7 @@ import config from './webpack.config.babel';
 gulp.task('test', function() {
   return gulp.src([
     '!node_modules/**/*.js',
+    '!dist/**/*.js',
     '**/*.spec.js'
   ])
   .pipe(mocha({
