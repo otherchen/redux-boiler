@@ -1,21 +1,21 @@
-var cluster = require('cluster');
+import cluster from 'cluster';
 
-module.exports = function() {
-  var app = require('../app.js');
-  var debug = require('debug')('redux-boiler:server');
-  var http = require('http');
+export default function() {
+  const app = require('../app.js');
+  const debug = require('debug')('redux-boiler:server');
+  const http = require('http');
 
-  var port = normalizePort(process.env.PORT || '3000');
+  const port = normalizePort(process.env.PORT || '3000');
   app.set('port', port);
 
-  var server = http.createServer(app);
+  const server = http.createServer(app);
 
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
 
   function normalizePort(val) {
-    var port = parseInt(val, 10);
+    const port = parseInt(val, 10);
 
     if (isNaN(port)) {
       return val;
@@ -33,7 +33,7 @@ module.exports = function() {
       throw error;
     }
 
-    var bind = typeof port === 'string'
+    const bind = typeof port === 'string'
       ? 'Pipe ' + port
       : 'Port ' + port;
 
@@ -52,8 +52,8 @@ module.exports = function() {
   }
 
   function onListening() {
-    var addr = server.address();
-    var bind = typeof addr === 'string'
+    const addr = server.address();
+    const bind = typeof addr === 'string'
       ? 'pipe ' + addr
       : 'port ' + addr.port;
     debug('Listening on ' + bind);

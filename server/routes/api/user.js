@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var account = require('../../utils/account');
-var auth = require('../../utils/auth');
-var checkToken = require('../../middleware/check-jwt');
+import express from 'express';
+import account from '../../utils/account';
+import auth from '../../utils/auth';
+import checkToken from '../../middleware/check-jwt';
+const router = express.Router();
 
 /* Login an existing user */
 router.post('/login', function(req, res, next) {
@@ -31,4 +31,4 @@ router.get('/verify', checkToken, function(req, res, next) {
   res.status(200).send();
 });
 
-module.exports = router;
+export default router;

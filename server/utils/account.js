@@ -1,16 +1,16 @@
-var UserModel = require('../models/user');
-var auth = require('./auth');
-var _ = require('lodash');
+import UserModel from '../models/user';
+import auth from './auth';
+import _ from 'lodash';
 
-module.exports = {
+export default {
   login: function(body) {
     return UserModel.findOne({ email: body.email }).exec()
-    .then(function(user){
+    .then((user) => {
       if(!user) {
         throw new Error('No user with that email exists');
       }
       return auth.compareHash(body.password, user.password)
-      .then(function(match) {
+      .then((match) => {
         if(!match) {
           throw new Error('Email or password is incorrect');
         }
@@ -19,22 +19,21 @@ module.exports = {
     });
   },
   register: function(body) {
-    var self = this;
     return UserModel.findOne({ email: body.email }).exec()
-    .then(function(exists) {
+    .then((exists) => {
       if(exists) {
         throw new Error('User with that email already exists');
       } else {
         return auth.createHash(body.password);
       }
     })
-    .then(function(hash) {
-      var data = _.merge({}, body, { password: hash });
-      var user = new UserModel(data);
+    .then((hash) => {
+      const data = _.merge({}, body, { password: hash });
+      const user = new UserModel(data);
       return user.save();
     })
-    .then(function(user) {
-      return self.login(body);
+    .then((user) => {
+      return this.login(body);
     });
   }
 };

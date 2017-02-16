@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   application: {
     secret: "cookies-n-cream"
   },

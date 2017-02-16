@@ -1,11 +1,11 @@
-var config = require('../config');
-var jwt = require('jsonwebtoken');
-var bcrypt = require('bcryptjs');
-var _ = require('lodash');
+import config from '../config';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import _ from 'lodash';
 
-var SALT_WORK_FACTOR = 10;
+const SALT_WORK_FACTOR = 10;
 
-module.exports = {
+export default {
   createToken: function(profile, options) {
     options = options || { expiresIn: 60*60*5 };
     return jwt.sign(_.omit(profile, 'password'), config.application.secret, options);

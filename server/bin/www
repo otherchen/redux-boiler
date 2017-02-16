@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+import cluster from 'cluster';
+import master from '../start/master';
+import worker from '../start/worker';
+
+if(cluster.isMaster) {
+  master(cluster, {
+    timeoutLength: 5000,
+    exitTimeoutLength: 3000
+  });
+} else {
+  worker();
+}

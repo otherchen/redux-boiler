@@ -1,10 +1,10 @@
-var webpack = require('webpack');
+import webpack from 'webpack';
 
-module.exports = {
+export default {
 
   entry: [
     'babel-polyfill',
-    './app/index.js'
+    './client/index.js'
   ],
 
   output: {
@@ -13,7 +13,7 @@ module.exports = {
   },
 
   resolve: {
-    root: __dirname + '/app',
+    root: __dirname + '/client',
     extensions: ['', '.js', '.jsx']
   },
 
@@ -38,6 +38,8 @@ module.exports = {
 
   cache: true,
 
-  debug: false
+  debug: false,
+
+  watch: true
 
 };

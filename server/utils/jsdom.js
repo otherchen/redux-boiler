@@ -1,5 +1,5 @@
-var jsdom = require('jsdom').jsdom;
-var exposedProperties = ['window', 'navigator', 'document'];
+import { jsdom } from 'jsdom';
+const exposedProperties = ['window', 'navigator', 'document'];
 
 /* set up in-javascript implementation of the DOM for testing */
 

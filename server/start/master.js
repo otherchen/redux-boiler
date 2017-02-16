@@ -1,8 +1,8 @@
-var os = require('os');
+import os from 'os';
 
 function createWorkers(cluster) {
-  var cpuCount = 1; /*os.cpus().length;*/
-  for(var i = 0; i < cpuCount; ++i) {
+  const cpuCount = 1; /* os.cpus().length; */
+  for(let i = 0; i < cpuCount; ++i) {
     cluster.fork();
   }
 }
@@ -17,13 +17,12 @@ function killWorker(worker) {
   }
 }
 
-module.exports = function master(cluster, options) {
-  var systemState = {
+function master(cluster, options) {
+  const systemState = {
     allWorkers: [],
     timeouts: [],
     restart: true,
     options: options,
-    startFunc: arguments.callee,
     killWorker: killWorker
   };
 
@@ -49,16 +48,15 @@ module.exports = function master(cluster, options) {
 
   process.on('SIGUSR2', function() {
     console.log('Rolling restart...');
-    for(var i = 0; i < this.allWorkers.length; ++i) {
+    for(let i = 0; i < this.allWorkers.length; ++i) {
       this.killWorker(this.allWorkers[i]);
     }
   }.bind(systemState));
 
   process.on('SIGINT', function() {
-    exitTimeouts = [];
     systemState.restart = false;
 
-    for(var i = 0; i < this.allWorkers.length; ++i) {
+    for(let i = 0; i < this.allWorkers.length; ++i) {
       setTimeout(function(worker) {
         console.log('Worker ' + worker.id + ' failed to shut down gracefully. Exiting...');
         this.killWorker(worker);
@@ -76,3 +74,5 @@ module.exports = function master(cluster, options) {
 
   createWorkers(cluster);
 };
+
+export default master;
