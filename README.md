@@ -6,7 +6,7 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 2. [What's Included](#whats-included)
 3. [File Structure](#file-structure)
 4. [Testing Utilities](#testing-utilities)
-5. [Gulp Commands](#gulp-commands)
+5. [NPM Scripts](#npm-scripts)
 6. [Recommendations](#recommendations)
  
 ### Getting Started
@@ -62,14 +62,11 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 
 
 ### File Structure
-1. [/app](./app) is where you write all of your react/redux code
-2. [/models](./models) is where you write your mongoose schemas
+1. [/client](./client) is where you write all of your react/redux code
+2. [/server](./server) is where you write all of your server-side code
 3. [/views](./views) is where you write your ejs (where you can include cdn scripts)
-4. [/routes](./routes) is where you write your controller and api routes
-5. [/utils](./utils) is where you write your shared helper modules
-6. [/assets](./assets) is where you write your sass and where you place your images
-7. [/start](./start) & [/bin](./bin) are for helping start the server (you shouldn't need to touch them)
-8. [/public](./public) is where the ejs looks for your static files (you shouldn't need to touch them)
+4. [/assets](./assets) is where you write your sass and where you place your images
+5. [/public](./public) is where the ejs looks for your static files (you shouldn't need to touch this)
 
 ### What's Included
 
