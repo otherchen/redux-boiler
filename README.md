@@ -19,7 +19,7 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 
 1. install all dependencies
   ```
-  npm install
+  cd redux-boiler && npm install
   ```
 
 1. install mongodb from their [website](https://docs.mongodb.com/manual/installation/) or if you have homebrew: 
@@ -37,7 +37,7 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 
 1. start up mongo with:
   ```
-  mongod --dbpath <path to data directory>
+  mongod --dbpath /data/db
   ```
 
 1. create a mongo database
@@ -46,7 +46,7 @@ MERN stack + Redux boilerplate with all of the essentials built in.
   use sampledb
   ```
 
-1. add your new database configeration to [config.js](./config.js)
+1. add your new database configeration to the [config file](./server/config/default.js)
 
 1. start the node server
   ```
