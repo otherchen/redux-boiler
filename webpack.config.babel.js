@@ -26,7 +26,12 @@ export default {
   },
 
   plugins: [
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({ 
+      'process.env': { 
+        'NODE_ENV': `'${process.env.NODE_ENV}'`
+      } 
+    })
   ],
 
   stats: {
@@ -38,8 +43,6 @@ export default {
 
   cache: true,
 
-  debug: false,
-
-  watch: true
+  debug: false
 
 };

@@ -1,0 +1,28 @@
+# allows for swarm mode
+version: '3'
+
+# specifies the app stack
+services:
+    web:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        networks:
+            - webnet
+    db:
+        image: mongo:latest
+        volumes:
+            - "data:/data/db"
+        ports:
+            - "27017:27017"
+        networks:
+            - webnet
+
+# creates a link between services
+networks:
+    webnet:
+
+# creates a named volume which generates 
+# a mount path in the docker workspace
+volumes:
+    data:

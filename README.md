@@ -1,65 +1,42 @@
-# redux-boiler
-MERN stack + Redux boilerplate with all of the essentials built in.
+# redux-boiler [![Build Status](https://travis-ci.org/otherchen/redux-boiler.svg?branch=master)](https://travis-ci.org/otherchen/redux-boiler)
+MERN stack + Basic JWT Authentication + Docker + Travis.
 
 ### Table of Contents
-1. [Getting Started](#table-of-contents)
-2. [What's Included](#whats-included)
-3. [File Structure](#file-structure)
-4. [Testing Utilities](#testing-utilities)
-5. [NPM Scripts](#npm-scripts)
-6. [Recommendations](#recommendations)
- 
+1. [Getting Started](#getting-started)
+1. [File Structure](#file-structure)
+1. [What's Included](#whats-included)
+1. [Testing Utilities](#testing-utilities)
+1. [NPM Scripts](#npm-scripts)
+1. [Recommendations](#recommendations)
+1. [Todo List](#todo-list)
+
 ### Getting Started
-1. install [Node.js](https://nodejs.org/en/download/) (comes with npm)
+1. Install Docker. Mac users can download [Docker for Mac](https://www.docker.com/docker-mac) (recommended) or [Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_mac/). Windows users can only use [Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/).
 
-1. copy the project directory
-  ```
-  git clone https://github.com/otherchen/redux-boiler.git
-  ```
+1. Install [npm](https://nodejs.org/en/download/). (Note: npm installation is not actually necessary since the docker image will have its own
+Node.js and npm instances. However, I've added some useful shorthand scripts to the package.json, making npm recommended to have. If you don't want to install npm, just directly use the docker commands aliased in the package.json)
 
-1. install all dependencies
-  ```
-  cd redux-boiler && npm install
-  ```
+1. Clone the project directory.
+    ```
+    git clone https://github.com/otherchen/redux-boiler.git
+    ```
 
-1. install mongodb from their [website](https://docs.mongodb.com/manual/installation/) or if you have homebrew: 
-  ```brew install mongodb```
+1. Build the docker image. (this runs npm install inside the image and packages all the code into one neat bundle)
+    ```
+    docker-compose build
+    ```
 
-1. create a directory for mongo to live in
-  ```
-  mkdir -p /data/db
-  ```
+1. Check that unit tests run.
+    ```
+    npm run compose-tests
+    ```
 
-1. make sure the directory has the correct permissions
-  ```
-  chmod 0755 /data/db && sudo chown $USER /data/db
-  ```
+1. Start a docker container in development mode.
+    ```
+    npm run compose-development
+    ```
 
-1. start up mongo with:
-  ```
-  mongod --dbpath /data/db
-  ```
-
-1. create a mongo database
-  ```
-  mongo
-  use sampledb
-  ```
-
-1. add your new database configeration to the [config file](./server/config/default.js)
-
-1. start the node server
-  ```
-  npm start
-  ```
-
-1. check that tests run
-  ```
-  npm test
-  ```
-
-1. open [localhost:3000](localhost:3000) to see the starter app
-
+1. Open [localhost:3000](localhost:3000) to see the starter app.
 
 ### File Structure
 1. [/client](./client) is where you write all of your react/redux code
@@ -67,6 +44,14 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 3. [/views](./views) is where you write your ejs (where you can include cdn scripts)
 4. [/assets](./assets) is where you write your sass and where you place your images
 5. [/public](./public) is where the ejs looks for your static files (you shouldn't need to touch this)
+
+##### Important Root Level Files
+1. [Dockerfile](./Dockerfile) is used to define how to build your web application's Docker image
+2. [docker-compose.yml](./docker-compose.yml) is the base compose file used to instantiate & orchestrate the app's containers
+3. [gulpfile.babel.js](./gulpfile.babel.js) is used to create gulp tasks, specifically for building and running the entire app's code
+4. [webpack.config.babel.js](./webpack.config.babel.js) is used by webpack (in the gulpfile) to configure the bundling of client-side code
+5. [.travis.yml](./.travis.yml) is used by [travis-ci](https://travis-ci.org/) to automate your continuous integration (can be removed)
+6. [.editorconfig](./.editorconfig) adheres your code editor to certain settings if the editorconfig plugin is installed (can be removed)
 
 ### What's Included
 
@@ -78,52 +63,67 @@ MERN stack + Redux boilerplate with all of the essentials built in.
 5. redux
 
 ##### Testing
-1. mocha 
-2. chai 
-3. sinon 
-4. enzyme 
-5. jsdom 
+1. mocha
+2. chai
+3. sinon
+4. enzyme
+5. jsdom
 
 ##### Important Modules
 1. gulp
 2. webpack
-3. nodemon
 4. mongoose
-5. lodash
-6. bcryptjs
 7. isomorphic-fetch
 8. babel (jsx/es6 support)
 9. jsonwebtoken
 10. redux-form
 11. redux-thunk
 
+##### DevOps
+1. docker
+2. travis-ci
+
 ### Testing Utilities
 ##### Frontend Stack
 1. mocha - runner
 2. chai - asserts
-3. sinon - spies
+3. sinon - stubs
 4. enzyme - react components
 5. jsdom - headless browser
 
 ##### Backend Stack
 1. mocha - runner
 2. chai - asserts
-3. sinon - spies
+3. sinon - stubs
 
 ##### How to Write Tests
 1. all tests should have the extension - `.spec.js` (ex. HelloWorld.spec.js)
 2. test files can be placed anywhere but it is recommended to group them in folders with clear intentions (ex. `__test__`)
-2. run your tests using `npm test`
+3. run your tests using `npm run compose-tests`
 
 ### NPM Scripts
-1. `npm start` starts the node server
-2. `npm test` runs the mocha tests
+##### 1. `npm run compose-development`
+* starts the app in development mode on port 3000
+
+##### 2. `npm run compose-production`
+* starts the app in production mode on port 80
+
+##### 3. `npm run compose-tests`
+* runs the tests in development mode so you don't need to rebuild the Docker image each time you test
+
+##### 4. `npm start`
+* used by docker to start the server (you shouldn't have to use this)
+
+##### 5. `npm test`
+* used by docker to run the tests (you shouldn't have to use this)
 
 ### Recommendations
-1. follow airbnb's [react style guide](https://github.com/airbnb/javascript/tree/master/react) for best practices
-2. add the [supertest](https://www.npmjs.com/package/supertest) npm module for testing routes
+1. Follow Airbnb's [react style guide](https://github.com/airbnb/javascript/tree/master/react) for best practices
 
 ### Todo List
-1. Create a Higher Order Component to handle checking the token on page refresh
-2. Implement Webpack hot reloading / Webpack dev server
-3. Implement Redux Router for Redo/Undo functionality
+1. Replace npm with yarn for faster installs and better memory utilization
+2. Add an application level build step in the Dockerfile so that in production, npm start only starts the server
+3. Add the [supertest](https://www.npmjs.com/package/supertest) npm module for testing routes (integration tests)
+4. Create a Higher Order Component to handle checking the token on page refresh
+5. Implement Webpack hot reloading / Webpack dev server
+6. Implement Redux Router for Undo/Redo functionality

@@ -1,0 +1,10 @@
+# allows for swarm mode
+version: '3'
+
+# provides production overrides to docker-compose.yml
+services:
+    web:
+        environment:
+            NODE_ENV: production
+        ports:
+            - "80:3000"

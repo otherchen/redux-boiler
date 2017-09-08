@@ -1,0 +1,21 @@
+# allows for swarm mode
+version: '3'
+
+# provides development overrides to docker-compose.yml
+services:
+    web:
+        environment:
+            NODE_ENV: development
+        volumes:
+            # binds host's files to container's files (for quicker development cycles)
+            - .:/app 
+            # creates volume to store node_modules - Since npm install is only run when the image is built, 
+            # the installed node_modules would exist in the image but not the host. In addition, the above 
+            # binding mounts the host's files on top of the container's files. Therefore, because the host
+            # does not have node_modules, this binding causes the container to ignore the node_modules that 
+            # were installed in the image and instead, mimic the host's state. Having this volume forces the
+            # container to use the node_modules from the docker image, overriding the bind's effects. 
+            # (http://jdlm.info/articles/2016/03/06/lessons-building-node-app-docker.html)
+            - /app/node_modules
+        ports:
+            - "3000:3000"
