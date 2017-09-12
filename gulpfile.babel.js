@@ -9,7 +9,11 @@ import nodemon from 'gulp-nodemon';
 import mocha from 'gulp-mocha';
 import babel from 'gulp-babel';
 import compiler from 'babel-register';
+import { spawn } from 'child_process';
 import config from './webpack.config.babel';
+
+/************************************/
+// test tasks
 
 gulp.task('test', function() {
   return gulp.src([
@@ -19,13 +23,15 @@ gulp.task('test', function() {
   ])
   .pipe(mocha({
     require: ['./server/utils/jsdom'],
-    reporter: 'nyan',
     timeout: 10000,
     compilers: {
       js: compiler
     }
   }));
 });
+
+/************************************/
+// asset tasks
 
 gulp.task('styles', function() {
   return gulp.src('assets/scss/style.scss')
@@ -45,16 +51,33 @@ gulp.task('images', function() {
     .pipe(gulp.dest('public/images'));
 });
 
-gulp.task('assets-watch', ['styles', 'images'], function() {
+gulp.task('assets-watch', ['assets-build'], function() {
   gulp.watch('assets/scss/**/*.scss', ['styles']);
   gulp.watch('assets/images/**/*', ['images']);
 });
 
-gulp.task('client-build', function() {
+gulp.task('assets-build', ['styles', 'images']);
+
+/************************************/
+// client tasks
+
+const clientBuild = function() {
   return gulp.src('client/index.js')
     .pipe(webpack(config))
     .pipe(gulp.dest('public/js'));
+};
+
+gulp.task('client-watch', function() {
+  config.watch = true;
+  return clientBuild();
 });
+
+gulp.task('client-build', function() {
+  return clientBuild();
+});
+
+/************************************/
+// server tasks
 
 gulp.task('server-build', function() {
   return gulp.src(['server/**/*'])
@@ -64,10 +87,11 @@ gulp.task('server-build', function() {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('server-run', ['server-build'], function() {
+gulp.task('server-watch-and-run', ['server-build'], function() {
   nodemon({
     script: 'dist/bin/www',
     ext: 'js',
+    tasks: ['server-build'],
     ignore: [
       'node_modules',
       'public',
@@ -76,4 +100,16 @@ gulp.task('server-run', ['server-build'], function() {
   });
 });
 
-gulp.task('default', ['assets-watch', 'client-build', 'server-run']);
+gulp.task("server-build-and-run", ['server-build'], function() {
+  const server = spawn('node', ['dist/bin/www']);
+  server.stdout.pipe(process.stdout);
+  server.stderr.pipe(process.stderr);
+});
+
+/************************************/
+// default task
+
+const development = ['assets-watch', 'client-watch', 'server-watch-and-run'];
+const production = ['assets-build', 'client-build', 'server-build-and-run'];
+
+gulp.task('default', process.env.NODE_ENV === 'development' ? development : production);

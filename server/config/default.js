@@ -3,6 +3,6 @@ export default {
     secret: "cookies-n-cream"
   },
   mongodb: {
-    host: "mongodb://localhost:27017/sampledb"
+    host: "mongodb://db:27017/"
   }
 };
