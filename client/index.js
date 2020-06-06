@@ -18,7 +18,7 @@ const store = Store();
 const token = Token.get();
 if(token) store.dispatch(loginSuccess(token));
 
-const routes = (
+const routesWithADifferentName = (
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/">
@@ -39,4 +39,4 @@ const routes = (
   </Provider>
 );
 
-render(routes, document.getElementById('root'));
+render(routesWithADifferentName, document.getElementById('root'));
