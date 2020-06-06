@@ -18,7 +18,9 @@ const store = Store();
 const token = Token.get();
 if(token) store.dispatch(loginSuccess(token));
 
+
 const routesUsingDifferentTag = (
+
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/">
@@ -40,3 +42,4 @@ const routesUsingDifferentTag = (
 );
 
 render(routesUsingDifferentTag, document.getElementById('root'));
+
