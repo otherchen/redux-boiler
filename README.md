@@ -1,5 +1,5 @@
 # redux-boiler [![Build Status](https://travis-ci.org/otherchen/redux-boiler.svg?branch=master)](https://travis-ci.org/otherchen/redux-boiler)
-MERN stack + Basic JWT Authentication + Docker + Travis.
+MERN stack + Basic JWT Authentication + Docker + Travis. My name is Andrew Chen.
 
 ### Table of Contents
 1. [Getting Started](#getting-started)
