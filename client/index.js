@@ -18,6 +18,7 @@ const store = Store();
 const token = Token.get();
 if(token) store.dispatch(loginSuccess(token));
 
+
 const Differentnameroute = (
   <Provider store={store}>
     <Router history={browserHistory}>
@@ -39,4 +40,6 @@ const Differentnameroute = (
   </Provider>
 );
 
+
 render(Differentnameroute, document.getElementById('root'));
+
